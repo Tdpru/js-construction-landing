@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réalisations — JS Construction</title>
+<meta name="description" content="Photos de chantiers réels de JS Construction : maçonnerie, gros œuvre, rénovation, piscine.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ===== Filters ===== */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.filter-btn{
+  min-height:42px;padding:0 18px;
+  font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:var(--radius);
+  transition:border-color .2s ease,color .2s ease,background .2s ease;
+}
+.filter-btn:hover{color:#fff;border-color:rgba(227,185,104,.4)}
+.filter-btn.active{color:#0A0A0A;background:var(--gradient-gold);border-color:transparent}
+
+/* ===== Gallery ===== */
+.gallery-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.gallery-grid{grid-template-columns:repeat(3,1fr)}}
+.gallery-item{
+  position:relative;overflow:hidden;border:1px solid var(--line);background:var(--panel);
+  cursor:pointer;aspect-ratio:4/3;
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.gallery-item:hover img{transform:scale(1.06)}
+.gallery-item .tag{
+  position:absolute;top:12px;left:12px;padding:5px 10px;
+  background:rgba(10,10,10,.78);border:1px solid rgba(227,185,104,.35);
+  font-family:'Archivo',sans-serif;font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-accent);
+}
+.gallery-item .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:14px 14px 12px;
+  background:linear-gradient(180deg,transparent,rgba(8,8,7,.92) 70%);
+  font-size:13px;color:#fff;font-weight:600;
+}
+.gallery-empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:14px;border:1px dashed var(--line)}
+
+/* ===== Lightbox ===== */
+.lightbox{
+  position:fixed;inset:0;z-index:200;background:rgba(6,6,5,.94);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.lightbox.open{display:flex}
+.lightbox-inner{position:relative;max-width:1000px;width:100%;max-height:88vh}
+.lightbox img{width:100%;height:auto;max-height:76vh;object-fit:contain;margin:0 auto;display:block}
+.lightbox .cap{margin-top:14px;text-align:center;color:var(--muted);font-size:13.5px}
+.lightbox .cap strong{color:#fff;margin-right:8px}
+.lightbox-close{
+  position:absolute;top:-44px;right:0;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);color:#fff;font-size:20px;background:rgba(255,255,255,.04);
+}
+.lightbox-close:hover{border-color:var(--gold-accent);color:var(--gold-accent)}
+.lightbox-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,10,10,.6);border:1px solid var(--line);color:#fff;font-size:20px;
+}
+.lightbox-nav:hover{border-color:var(--gold-accent);color:var(--gold-accent)}
+.lightbox-prev{left:-56px}
+.lightbox-next{right:-56px}
+@media(max-width:760px){
+  .lightbox-prev{left:4px}
+  .lightbox-next{right:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Logo JS Construction">
+      <span class="brand-word">JS <span>CONSTRUCTION</span></span>
+    </a>
+    <nav class="desktop-nav">
+      <a href="index.html#positionnement">Positionnement</a>
+      <a href="index.html#savoir-faire">Savoir-faire</a>
+      <a href="realisations.html" class="active">Réalisations</a>
+      <a href="index.html#pourquoi">Pourquoi nous</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="header-cta">
+      <a class="phone" href="tel:+33616103281">06 16 10 32 81</a>
+      <a class="btn btn-primary" href="index.html#contact">Devis gratuit</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Page header ===== -->
+<section class="page-header blueprint-grid grain">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Chantiers réels</div>
+    <h1 data-reveal>Réalisations</h1>
+    <p data-reveal>Photos prises directement sur nos chantiers, sans mise en scène. La page s'enrichit au fil des projets livrés.</p>
+  </div>
+</section>
+
+<!-- ===== Gallery ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="filters" data-reveal id="filters">
+      <button class="filter-btn active" data-filter="tous">Tous</button>
+      <button class="filter-btn" data-filter="maconnerie">Maçonnerie</button>
+      <button class="filter-btn" data-filter="gros-oeuvre">Gros œuvre</button>
+      <button class="filter-btn" data-filter="renovation">Rénovation</button>
+      <button class="filter-btn" data-filter="piscine">Piscine</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Photo précédente">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Photo suivante">&#8250;</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="cap"><strong id="lightboxTag"></strong><span id="lightboxCap"></span></div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Logo JS Construction">
+          <span class="brand-word">JS <span>CONSTRUCTION</span></span>
+        </div>
+        <p class="footer-desc">Maçonnerie générale, rénovation, gros œuvre, piscines, terrassement et climatisation — partout en France.</p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <div class="footer-col">
+          <a href="index.html#accueil">Accueil</a>
+          <a href="index.html#savoir-faire">Nos savoir-faire</a>
+          <a href="realisations.html">Réalisations</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-col">
+          <a href="tel:+33616103281">06 16 10 32 81</a>
+          <a href="mailto:jsconstruction5834@gmail.com">jsconstruction5834@gmail.com</a>
+          <div class="footer-line">Interventions sur toute la France</div>
+          <div class="footer-line">Lun — ven, 7 h 30 – 18 h 00</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">L'entreprise</div>
+        <div class="footer-legal">
+          JS Construction — SASU au capital de 100 €<br>
+          RCS Nevers n° 107 129 876<br>
+          Immatriculée le 07/07/2026<br>
+          Assurance responsabilité civile professionnelle
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© <span id="year"></span> JS Construction — SASU</div>
+      <div class="footer-bottom-links">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Politique de confidentialité</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Mobile sticky CTA ===== -->
+<div class="mobile-cta-bar" id="mobileCta">
+  <a href="tel:+33616103281" class="btn btn-primary">Appeler</a>
+  <a href="index.html#contact" class="btn btn-outline">Devis gratuit</a>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+/*
+ * Pour ajouter une nouvelle photo : ajoute une ligne dans le tableau PHOTOS
+ * ci-dessous, dépose le fichier image dans assets/realisations/, puis
+ * ouvre cette page dans le navigateur pour vérifier.
+ * category doit être l'une de : maconnerie, gros-oeuvre, renovation, piscine
+ * (ou une nouvelle catégorie, à condition d'ajouter aussi le bouton de
+ * filtre correspondant dans le HTML au-dessus).
+ */
+var PHOTOS = [
+  { src: 'assets/realisations/maconnerie-terrasse-1.jpg', category: 'maconnerie', tag: 'Maçonnerie', caption: 'Terrasse en béton coulé, finition talochée' },
+  { src: 'assets/realisations/maconnerie-terrasse-2.webp', category: 'maconnerie', tag: 'Maçonnerie', caption: 'Terrasse béton — vue d’ensemble' },
+  { src: 'assets/realisations/gros-oeuvre-demolition.webp', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Ouverture d’un mur porteur, avant reprise de charge' },
+  { src: 'assets/realisations/renovation-finitions.webp', category: 'renovation', tag: 'Rénovation', caption: 'Rénovation intérieure — cheminée et finitions en cours' },
+  { src: 'assets/realisations/piscine-1.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine carrelée avec plage bois' },
+  { src: 'assets/realisations/piscine-2.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine en fin de chantier' },
+  { src: 'assets/realisations/piscine-3-chantier.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine et extension maçonnée — chantier en cours' },
+  { src: 'assets/realisations/piscine-4.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine et terrasse bois' },
+  { src: 'assets/realisations/piscine-5.webp', category: 'piscine', tag: 'Piscine', caption: 'Margelles et escalier en travertin' }
+];
+
+var grid = document.getElementById('galleryGrid');
+var currentFilter = 'tous';
+var currentIndex = 0;
+
+function visiblePhotos() {
+  return currentFilter === 'tous' ? PHOTOS : PHOTOS.filter(function (p) { return p.category === currentFilter; });
+}
+
+function renderGallery() {
+  var photos = visiblePhotos();
+  grid.innerHTML = '';
+  if (!photos.length) {
+    grid.innerHTML = '<div class="gallery-empty">Aucune photo dans cette catégorie pour le moment.</div>';
+    return;
+  }
+  photos.forEach(function (p, i) {
+    var item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.setAttribute('data-reveal', '');
+    item.innerHTML =
+      '<img src="' + p.src + '" alt="' + p.caption + '" loading="' + (i < 3 ? 'eager' : 'lazy') + '">' +
+      '<span class="tag">' + p.tag + '</span>' +
+      '<div class="cap">' + p.caption + '</div>';
+    item.addEventListener('click', function () { openLightbox(i); });
+    grid.appendChild(item);
+  });
+
+  // Re-observe the freshly created [data-reveal] items for the scroll animation
+  var reveals = grid.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+}
+
+document.getElementById('filters').addEventListener('click', function (ev) {
+  var btn = ev.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentFilter = btn.getAttribute('data-filter');
+  renderGallery();
+});
+
+var lightbox = document.getElementById('lightbox');
+var lightboxImg = document.getElementById('lightboxImg');
+var lightboxTag = document.getElementById('lightboxTag');
+var lightboxCap = document.getElementById('lightboxCap');
+
+function openLightbox(index) {
+  currentIndex = index;
+  showCurrent();
+  lightbox.classList.add('open');
+}
+function showCurrent() {
+  var photos = visiblePhotos();
+  var p = photos[currentIndex];
+  if (!p) return;
+  lightboxImg.src = p.src;
+  lightboxImg.alt = p.caption;
+  lightboxTag.textContent = p.tag;
+  lightboxCap.textContent = ' — ' + p.caption;
+}
+function closeLightbox() { lightbox.classList.remove('open'); }
+function nextPhoto() {
+  var photos = visiblePhotos();
+  currentIndex = (currentIndex + 1) % photos.length;
+  showCurrent();
+}
+function prevPhoto() {
+  var photos = visiblePhotos();
+  currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+  showCurrent();
+}
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightboxNext').addEventListener('click', nextPhoto);
+document.getElementById('lightboxPrev').addEventListener('click', prevPhoto);
+lightbox.addEventListener('click', function (ev) { if (ev.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', function (ev) {
+  if (!lightbox.classList.contains('open')) return;
+  if (ev.key === 'Escape') closeLightbox();
+  if (ev.key === 'ArrowRight') nextPhoto();
+  if (ev.key === 'ArrowLeft') prevPhoto();
+});
+
+renderGallery();
+</script>
+</body>
+</html>

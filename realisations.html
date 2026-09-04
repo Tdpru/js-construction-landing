@@ -118,6 +118,7 @@
       <button class="filter-btn" data-filter="gros-oeuvre">Gros œuvre</button>
       <button class="filter-btn" data-filter="renovation">Rénovation</button>
       <button class="filter-btn" data-filter="piscine">Piscine</button>
+      <button class="filter-btn" data-filter="terrassement">Terrassement</button>
     </div>
 
     <div class="gallery-grid" id="galleryGrid"></div>
@@ -200,25 +201,35 @@
  * Pour ajouter une nouvelle photo : ajoute une ligne dans le tableau PHOTOS
  * ci-dessous, dépose le fichier image dans assets/realisations/, puis
  * ouvre cette page dans le navigateur pour vérifier.
- * category doit être l'une de : maconnerie, gros-oeuvre, renovation, piscine
- * (ou une nouvelle catégorie, à condition d'ajouter aussi le bouton de
- * filtre correspondant dans le HTML au-dessus).
+ * category doit être l'une de : maconnerie, gros-oeuvre, renovation, piscine,
+ * terrassement (ou une nouvelle catégorie, à condition d'ajouter aussi le
+ * bouton de filtre correspondant dans le HTML au-dessus).
  */
 var PHOTOS = [
+  { src: 'assets/realisations/gros-oeuvre-extension-pierre.jpg', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Extension en parement pierre, baie vitrée coulissante' },
   { src: 'assets/realisations/gros-oeuvre-salon-demolition.jpg', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Démolition intérieure avant ouverture de cloison' },
   { src: 'assets/realisations/gros-oeuvre-mur-parpaings.jpg', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Montage d’un mur en parpaings' },
   { src: 'assets/realisations/gros-oeuvre-linteau-pierre.jpg', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Reprise de linteau en pierre au-dessus d’une ouverture' },
   { src: 'assets/realisations/gros-oeuvre-demolition.webp', category: 'gros-oeuvre', tag: 'Gros œuvre', caption: 'Ouverture d’un mur porteur, avant reprise de charge' },
+  { src: 'assets/realisations/renovation-pose-fenetre.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Pose de fenêtre en rénovation' },
+  { src: 'assets/realisations/renovation-fenetre-finie.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Fenêtre et encadrement pierre terminés' },
+  { src: 'assets/realisations/renovation-volet-roulant.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Fenêtre et volet roulant posés, façade enduite' },
   { src: 'assets/realisations/renovation-combles.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Aménagement de combles — cloisons en cours' },
   { src: 'assets/realisations/renovation-plaquiste.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Pose et finition de placo' },
   { src: 'assets/realisations/renovation-fenetre.jpg', category: 'renovation', tag: 'Rénovation', caption: 'Remplacement de fenêtre et volet roulant' },
   { src: 'assets/realisations/renovation-finitions.webp', category: 'renovation', tag: 'Rénovation', caption: 'Rénovation intérieure — cheminée et finitions en cours' },
+  { src: 'assets/realisations/maconnerie-mur-cloture.jpg', category: 'maconnerie', tag: 'Maçonnerie', caption: 'Mur de clôture en parement pierre, portail intégré' },
+  { src: 'assets/realisations/maconnerie-pose-carrelage.jpg', category: 'maconnerie', tag: 'Maçonnerie', caption: 'Pose de carrelage extérieur sur plots' },
   { src: 'assets/realisations/maconnerie-terrasse-1.jpg', category: 'maconnerie', tag: 'Maçonnerie', caption: 'Terrasse en béton coulé, finition talochée' },
+  { src: 'assets/realisations/piscine-pierre-1.jpg', category: 'piscine', tag: 'Piscine', caption: 'Piscine avec margelles et mur en pierre' },
+  { src: 'assets/realisations/piscine-pierre-2.jpg', category: 'piscine', tag: 'Piscine', caption: 'Piscine avec pool house en pierre' },
+  { src: 'assets/realisations/piscine-chantier-aerien.jpg', category: 'piscine', tag: 'Piscine', caption: 'Piscine en cours de construction, vue aérienne' },
   { src: 'assets/realisations/piscine-1.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine carrelée avec plage bois' },
   { src: 'assets/realisations/piscine-2.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine en fin de chantier' },
   { src: 'assets/realisations/piscine-3-chantier.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine et extension maçonnée — chantier en cours' },
   { src: 'assets/realisations/piscine-4.webp', category: 'piscine', tag: 'Piscine', caption: 'Piscine et terrasse bois' },
-  { src: 'assets/realisations/piscine-5.webp', category: 'piscine', tag: 'Piscine', caption: 'Margelles et escalier en travertin' }
+  { src: 'assets/realisations/piscine-5.webp', category: 'piscine', tag: 'Piscine', caption: 'Margelles et escalier en travertin' },
+  { src: 'assets/realisations/terrassement-excavation.jpg', category: 'terrassement', tag: 'Terrassement', caption: 'Excavation avant construction de piscine' }
 ];
 
 var grid = document.getElementById('galleryGrid');
